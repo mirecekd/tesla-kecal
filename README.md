@@ -1,6 +1,7 @@
-# Tesla Kecal - Voice Assistant Bridge
+# Tesla Kecal - Car Voice Assistant Bridge
 
-A sophisticated voice assistant integration system that bridges Home Assistant Assist and Perplexity AI through Android Tasker automation. This project enables seamless voice control switching between smart home management and AI conversations using a single interface.
+A sophisticated voice assistant integration system that bridges Home Assistant Assist and Perplexity AI through Android Tasker automation and brings it to car sound system for interaction. This project enables seamless voice control switching between smart home management and AI conversations using a single audio interface.
+
 
 <div align="center">
   
@@ -16,14 +17,26 @@ A sophisticated voice assistant integration system that bridges Home Assistant A
 
 ## 🚀 What This System Does
 
-Tesla Kecal creates a unified voice interface that allows you to:
+Tesla Kecal creates a unified voice interface designed **primarily for in-car use** that allows you to:
 
-- **Talk to Home Assistant Assist** for smart home control (lights, devices, automations)
-- **Talk to Perplexity AI** for general knowledge, research, and conversations
-- **Switch between services** seamlessly using voice commands or a popup interface
-- **Control everything** through Home Assistant dashboard buttons or Tasker scenes
+- **Talk to Home Assistant Assist** through your car's sound system for smart home control (lights, devices, automations)
+- **Talk to Perplexity AI** via car speakers for general knowledge, research, and conversations while driving
+- **Switch between services** seamlessly using voice commands or dashboard controls
+- **Control everything** through Home Assistant dashboard buttons accessible from your car's display or phone
 
-The system intelligently manages audio routing, app launching, and voice recognition to provide a smooth experience across both platforms.
+The system intelligently manages audio routing between your Android device and car's sound system, enabling hands-free voice interaction with both platforms while driving. Perfect for controlling your smart home before arriving or getting AI assistance during your commute.
+
+## 🚗 Primary Use Case: In-Car Voice Control
+
+This system is specifically designed for **automotive use**, enabling you to:
+
+- **Control your smart home** before arriving (turn on lights, adjust temperature, open garage)
+- **Get AI assistance** while driving (weather, traffic, general questions)
+- **Use your car's microphone and speakers** for natural voice interaction
+- **Keep hands on the wheel** with completely voice-controlled operation
+- **Access both services** through your car's Android Auto/display integration
+
+The audio routing ensures your voice commands and responses flow through your car's sound system, providing a seamless in-vehicle experience.
 
 ## 🏗️ System Architecture
 
@@ -52,10 +65,12 @@ The system intelligently manages audio routing, app launching, and voice recogni
 
 ### System Requirements
 
-- Android device with Tasker support
+- Android device with Tasker support (connected to car via Bluetooth/USB)
 - Home Assistant instance (local or cloud)
-- Stable network connection between devices
-- Microphone and speaker/headphones for voice interaction
+- Stable network connection (mobile data or car's WiFi hotspot)
+- **Car with Bluetooth audio or Android Auto support**
+- Car's built-in microphone and speaker system
+- Optional: Car display for Home Assistant dashboard access
 
 ## 🔧 Installation Guide
 
@@ -195,17 +210,26 @@ Update these settings in the Tasker configuration:
 
 ## 🎯 How to Use
 
-### Method 1: Home Assistant Dashboard
+### Method 1: In-Car via Home Assistant Dashboard
 
-1. **Start Home Assistant Voice**:
-   - Press "Start Home Assistant Voice" button
-   - Speak your smart home commands
-   - Press "Stop Home Assistant Voice" when done
+1. **Access HA Dashboard** in your car (via Android Auto, car display, or phone mount)
+2. **Start Home Assistant Voice**:
+   - Tap "Start Home Assistant Voice" button on dashboard
+   - Speak your smart home commands through car's microphone
+   - Responses play through car speakers
+   - Tap "Stop Home Assistant Voice" when done
 
-2. **Start Perplexity Voice**:
-   - Press "Start Perplexity Voice" button
-   - Ask questions or have conversations
-   - Press "Stop Perplexity Voice" when done
+3. **Start Perplexity Voice**:
+   - Tap "Start Perplexity Voice" button on dashboard
+   - Ask questions through car's audio system
+   - AI responses play through car speakers
+   - Tap "Stop Perplexity Voice" when done
+
+### Method 1a: Pre-Drive Setup
+
+- **Before starting your car**: Set up voice assistant from your phone
+- **During drive**: Use voice commands hands-free
+- **Arriving home**: Control smart home devices before parking
 
 ### Method 2: Tasker Popup Scene
 
@@ -233,12 +257,15 @@ The system uses a multi-step communication process:
 
 ### Audio Management
 
-The system carefully manages Android audio routing:
+The system carefully manages Android audio routing for in-car use:
 
-- **Media Volume**: Adjusted for optimal voice recognition
-- **Notification Volume**: Controlled to prevent interference
-- **Headset Detection**: AutoVoice monitors for voice input
-- **Audio Focus**: Properly managed between apps
+- **Car Audio Integration**: Routes voice input/output through car's sound system
+- **Bluetooth Audio**: Optimized for car Bluetooth connections
+- **Media Volume**: Adjusted for optimal voice recognition in vehicle environment
+- **Notification Volume**: Controlled to prevent interference with driving
+- **Headset Detection**: AutoVoice monitors car's audio connection as "headset"
+- **Audio Focus**: Properly managed between apps and car's audio system
+- **Hands-Free Operation**: Designed for safe, voice-only interaction while driving
 
 ### App Automation
 
@@ -262,11 +289,14 @@ The system carefully manages Android audio routing:
 
 ## 🛠️ Customization Options
 
-### Adjusting for Different Devices
+### Adjusting for Different Cars and Devices
 
-1. **Screen Resolution**: Update AutoInput coordinates in `bt.pp_start`
-2. **Device Name**: Change notification target in Home Assistant automations
-3. **App Packages**: Verify and update app package names if needed
+1. **Car Audio System**: Test and adjust audio routing for your specific car model
+2. **Screen Resolution**: Update AutoInput coordinates for your phone/car display
+3. **Device Name**: Change notification target in Home Assistant automations
+4. **App Packages**: Verify and update app package names if needed
+5. **Bluetooth Settings**: Optimize for your car's Bluetooth audio profile
+6. **Volume Levels**: Adjust for your car's speaker system and road noise
 
 ### Adding New Voice Services
 
@@ -286,10 +316,12 @@ Modify these values in stop tasks for your device:
 
 ### Common Issues
 
-**Voice not recognized**:
+**Voice not recognized in car**:
 - Check AutoVoice permissions
-- Verify microphone access for apps
-- Ensure headset detection is properly configured
+- Verify car's Bluetooth microphone is working
+- Ensure headset detection recognizes car audio as "headset"
+- Test microphone with other car apps first
+- Check car's audio input settings
 
 **Apps not launching**:
 - Verify app package names
