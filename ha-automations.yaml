@@ -1,0 +1,90 @@
+- id: '1752240599344'
+  alias: TASKER - ha_start
+  description: ''
+  triggers:
+  - entity_id: input_button.ha_start
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_7
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: net.dinglisch.android.taskerm
+        intent_action: ha.ha_start
+    enabled: true
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.tmy_kecka
+  mode: single
+- id: '1752240691931'
+  alias: TASKER - ha_stop
+  description: ''
+  triggers:
+  - entity_id:
+    - input_button.ha_stop
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_7
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: net.dinglisch.android.taskerm
+        intent_action: ha.ha_stop
+    enabled: true
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.tmy_kecka
+  mode: single
+- id: '1737452294512'
+  alias: TASKER - pp_start
+  description: ''
+  triggers:
+  - entity_id: input_button.pp_start
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_7
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: net.dinglisch.android.taskerm
+        intent_action: ha.pp_start
+    enabled: true
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.tmy_kecka
+  mode: single
+- id: '1737503107796'
+  alias: TASKER - pp_stop
+  description: ''
+  triggers:
+  - entity_id:
+    - input_button.pp_stop
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_7
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: net.dinglisch.android.taskerm
+        intent_action: ha.pp_stop
+    enabled: true
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.tmy_kecka
+  mode: single
