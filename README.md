@@ -41,10 +41,10 @@ The audio routing ensures your voice commands and responses flow through your ca
 ## 🏗️ System Architecture
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│  Home Assistant │───▶│ HA Companion App │───▶│     Android      │───▶│   Voice Apps    │
-│   (Automations) │    │   (Notifications)│    │    (Tasker)      │    │ (HA/Perplexity) │
-└─────────────────┘    └──────────────────┘    └──────────────────┘    └─────────────────┘
+┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  Home Assistant │ --> │ HA Companion App │ --> │     Android      │ --> |   Voice Apps    │
+│   (Automations) │     │   (Notifications)│     │    (Tasker)      │     │ (HA/Perplexity) │
+└─────────────────┘     └──────────────────┘     └──────────────────┘     └─────────────────┘
         │                        │                        │                        │
         ▼                        ▼                        ▼                        ▼
    Input Buttons          Broadcast Intents        Intent Handling           Voice Recognition
@@ -199,15 +199,6 @@ Update these settings in the Tasker configuration:
 **Task 9**
 - Handles Perplexity button press from popup scene
 
-### Scene (User Interface)
-
-**Popup Scene**
-- **Title**: "Kdo bude kecat" (Who will talk)
-- **Perplexity Button**: Launches Perplexity voice mode
-- **Home Assistant Button**: Launches Home Assistant voice mode
-- **Dimensions**: 675x562 pixels (portrait)
-- **Background**: Blue theme (#FF004D8C)
-
 ## 🎯 How to Use
 
 ### Method 1: In-Car via Home Assistant Dashboard
@@ -243,6 +234,27 @@ Update these settings in the Tasker configuration:
 - Run `bt.ha_start` for Home Assistant
 - Run `bt.pp_start` for Perplexity
 - Run respective stop tasks when finished
+
+### Method 4: Android Home Screen Widget
+
+Create a convenient home screen widget for quick access:
+
+1. **Import Widget Creator**: Import the `bt.widget_creator.tsk.xml` file into Tasker
+2. **Run Widget Creator Task**: Execute the `bt.widget_creator` task in Tasker
+3. **Add Widget to Home Screen**: 
+   - Long press on your Android home screen
+   - Select "Widgets"
+   - Find "Tasker" widgets
+   - Add the "Two Button Widget" to your home screen
+4. **Use Widget**: Tap either button directly from your home screen
+   - **Perplexity Button**: Instantly starts Perplexity voice mode
+   - **Home Assistant Button**: Instantly starts Home Assistant voice mode
+
+The widget features:
+- **Material Design**: Uses system colors and modern styling
+- **Two-Button Layout**: Quick access to both voice services
+- **Customizable Appearance**: Colors and corner radius can be modified
+- **Direct Task Execution**: Bypasses Home Assistant dashboard for faster access
 
 ## 🔧 Technical Implementation Details
 

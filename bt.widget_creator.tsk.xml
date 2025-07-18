@@ -1,0 +1,84 @@
+<TaskerData sr="" dvi="1" tv="6.5.11">
+	<Task sr="task11">
+		<cdate>1745394508831</cdate>
+		<edate>1752829210851</edate>
+		<id>11</id>
+		<nme>bt.widget_creator</nme>
+		<pri>100</pri>
+		<Action sr="act0" ve="7">
+			<code>389</code>
+			<Bundle sr="arg0">
+				<Vals sr="val">
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""/&gt;</net.dinglisch.android.tasker.RELEVANT_VARIABLES>
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
+				</Vals>
+			</Bundle>
+			<Str sr="arg1" ve="3">%widget_color_background=surface
+%widget_color_text=onSurface
+%widget_color_button_bg=primary
+%widget_color_button_text=onPrimary
+%widget_corner_radius=1</Str>
+			<Str sr="arg2" ve="3"/>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3">=</Str>
+			<Int sr="arg5" val="0"/>
+			<Int sr="arg6" val="3"/>
+			<Int sr="arg7" val="0"/>
+			<Int sr="arg8" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>461</code>
+			<Bundle sr="arg0">
+				<Vals sr="val">
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""/&gt;</net.dinglisch.android.tasker.RELEVANT_VARIABLES>
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
+				</Vals>
+			</Bundle>
+			<Str sr="arg1" ve="3">Two Button Widget</Str>
+			<Str sr="arg10" ve="3"/>
+			<Str sr="arg11" ve="3"/>
+			<Str sr="arg12" ve="3"/>
+			<Str sr="arg13" ve="3">{
+  "type": "Column",
+  "backgroundColor": "%widget_color_background",
+  "fillMaxSize": true,
+  "horizontalAlignment": "Center",
+  "verticalAlignment": "Center",
+  "padding": 8,
+  "children": [
+    {
+      "type": "Button",
+      "text": "Perplexity",
+      "task": "bt.pp_start",
+      "backgroundColor": "%widget_color_button_bg",
+      "contentColor": "%widget_color_button_text",
+      "cornerRadius": "%widget_corner_radius",
+      "fillMaxWidth": true,
+      "padding": 10
+    },
+    {
+      "type": "Button",
+      "text": "Home Assistant",
+      "task": "bt.ha_start",
+      "backgroundColor": "%widget_color_button_bg",
+      "contentColor": "%widget_color_button_text",
+      "cornerRadius": "%widget_corner_radius",
+      "fillMaxWidth": true,
+      "padding": 10
+    }
+  ]
+}</Str>
+			<Int sr="arg14" val="1"/>
+			<Str sr="arg15" ve="3"/>
+			<Int sr="arg16" val="1"/>
+			<Str sr="arg2" ve="3">Custom</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Str sr="arg5" ve="3"/>
+			<Str sr="arg6" ve="3"/>
+			<Str sr="arg7" ve="3"/>
+			<Str sr="arg8" ve="3"/>
+			<Str sr="arg9" ve="3"/>
+		</Action>
+	</Task>
+</TaskerData>
