@@ -11,6 +11,8 @@ A sophisticated voice assistant integration system that bridges Home Assistant A
 
 ## 🎥 Demo Videos
 
+[![Voice Assistant Demo - Part 3](https://img.youtube.com/vi/6QU8EQU9rwo/0.jpg)](https://www.youtube.com/watch?v=6QU8EQU9rwo)
+
 [![Voice Assistant Demo - Part 1](https://img.youtube.com/vi/EAhOADb4VXU/0.jpg)](https://www.youtube.com/watch?v=EAhOADb4VXU)
 
 [![Voice Assistant Demo - Part 2](https://img.youtube.com/vi/VlK9kio65x4/0.jpg)](https://www.youtube.com/watch?v=VlK9kio65x4)
