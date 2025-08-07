@@ -1,7 +1,6 @@
 # Tesla Kecal - Car Voice Assistant Bridge
 
-A sophisticated voice assistant integration system that bridges Home Assistant Assist and Perplexity AI through Android Tasker automation and brings it to car sound system for interaction. This project enables seamless voice control switching between smart home management and AI conversations using a single audio interface.
-
+A sophisticated voice assistant integration system that bridges Home Assistant Assist, Perplexity AI, and ChatGPT through Android Tasker automation, bringing all three to your car's sound system for seamless interaction. This project enables unified voice control switching between smart home management and AI conversations using a single audio interface.
 
 <div align="center">
   
@@ -12,9 +11,7 @@ A sophisticated voice assistant integration system that bridges Home Assistant A
 ## 🎥 Demo Videos
 
 [![Voice Assistant Demo - Part 3](https://img.youtube.com/vi/6QU8EQU9rwo/0.jpg)](https://www.youtube.com/watch?v=6QU8EQU9rwo)
-
 [![Voice Assistant Demo - Part 1](https://img.youtube.com/vi/EAhOADb4VXU/0.jpg)](https://www.youtube.com/watch?v=EAhOADb4VXU)
-
 [![Voice Assistant Demo - Part 2](https://img.youtube.com/vi/VlK9kio65x4/0.jpg)](https://www.youtube.com/watch?v=VlK9kio65x4)
 
 ## 🚀 What This System Does
@@ -23,10 +20,11 @@ Tesla Kecal creates a unified voice interface designed **primarily for in-car us
 
 - **Talk to Home Assistant Assist** through your car's sound system for smart home control (lights, devices, automations)
 - **Talk to Perplexity AI** via car speakers for general knowledge, research, and conversations while driving
+- **Chat with ChatGPT (GPT chat)** directly from your car – use a dedicated chat with ChatGPT for free conversation, brainstorming, or idea generation while driving
 - **Switch between services** seamlessly using voice commands or dashboard controls
 - **Control everything** through Home Assistant dashboard buttons accessible from your car's display or phone
 
-The system intelligently manages audio routing between your Android device and car's sound system, enabling hands-free voice interaction with both platforms while driving. Perfect for controlling your smart home before arriving or getting AI assistance during your commute.
+The system intelligently manages audio routing between your Android device and car's sound system, enabling hands-free voice interaction with all platforms while driving. Perfect for controlling your smart home before arriving or getting AI assistance during your commute.
 
 ## 🚗 Primary Use Case: In-Car Voice Control
 
@@ -34,9 +32,10 @@ This system is specifically designed for **automotive use**, enabling you to:
 
 - **Control your smart home** before arriving (turn on lights, adjust temperature, open garage)
 - **Get AI assistance** while driving (weather, traffic, general questions)
+- **Chat with ChatGPT** for brainstorming, casual conversation, or idea generation
 - **Use your car's microphone and speakers** for natural voice interaction
 - **Keep hands on the wheel** with completely voice-controlled operation
-- **Access both services** through your car's Android Auto/display integration
+- **Access all services** through your car's Android Auto/display integration
 
 The audio routing ensures your voice commands and responses flow through your car's sound system, providing a seamless in-vehicle experience.
 
@@ -45,9 +44,9 @@ The audio routing ensures your voice commands and responses flow through your ca
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌─────────────────┐
 │  Home Assistant │ --> │ HA Companion App │ --> │     Android      │ --> |   Voice Apps    │
-│   (Automations) │     │   (Notifications)│     │    (Tasker)      │     │ (HA/Perplexity) │
-└─────────────────┘     └──────────────────┘     └──────────────────┘     └─────────────────┘
-        │                        │                        │                        │
+│   (Automations) │     │   (Notifications)│     │    (Tasker)      │     │ (HA/Perplexity/ │
+└─────────────────┘     └──────────────────┘     └──────────────────┘     │   ChatGPT)      │
+        │                        │                        │               └─────────────────┘
         ▼                        ▼                        ▼                        ▼
    Input Buttons          Broadcast Intents        Intent Handling           Voice Recognition
    Boolean States         Mobile Notifications     Audio Control             App Automation
@@ -63,7 +62,8 @@ The audio routing ensures your voice commands and responses flow through your ca
 3. **[AutoVoice](https://joaoapps.com/autovoice/)** - Tasker plugin for voice control
 4. **[AutoInput](https://joaoapps.com/autoinput/)** - Tasker plugin for UI automation
 5. **[Perplexity](https://perplexity.ai)** - AI assistant app
-6. **Home Assistant Companion App** - For Android notifications and control
+6. **[ChatGPT](https://chat.openai.com)** - AI assistant app (install official app from Play Store)
+7. **Home Assistant Companion App** - For Android notifications and control
 
 ### System Requirements
 
@@ -98,6 +98,14 @@ input_button:
   
   pp_stop:
     name: "Stop Perplexity Voice"
+    icon: mdi:stop
+
+  gpt_start:
+    name: "Start ChatGPT Voice"
+    icon: mdi:robot
+  
+  gpt_stop:
+    name: "Stop ChatGPT Voice"
     icon: mdi:stop
 ```
 
@@ -140,6 +148,18 @@ Import the provided `ha-automations.yaml` file or manually create these automati
   - Send broadcast intent via HA Companion app to Tasker (`ha.pp_stop`)
   - Turn off `input_boolean.tmy_kecka`
 
+**TASKER - gpt_start**
+- **Trigger**: `input_button.gpt_start` state change
+- **Actions**: 
+  - Send broadcast intent via HA Companion app to Tasker (`ha.gpt_start`)
+  - Turn on `input_boolean.tmy_kecka`
+
+**TASKER - gpt_stop**
+- **Trigger**: `input_button.gpt_stop` state change
+- **Actions**: 
+  - Send broadcast intent via HA Companion app to Tasker (`ha.gpt_stop`)
+  - Turn off `input_boolean.tmy_kecka`
+
 ### Step 2: Tasker Configuration
 
 #### 2.1 Import Tasker Project
@@ -147,32 +167,35 @@ Import the provided `ha-automations.yaml` file or manually create these automati
 1. Download and import `tasker-kecalm.xml`
 2. Enable the "Vlasta" project
 3. Grant necessary permissions for AutoVoice and AutoInput
+4. For ChatGPT functionality, import files matching `*gpt*.xml` (e.g. `bt.gpt_stop.tsk.xml`, `int_ha.gpt_stop.prf.xml`)
 
 #### 2.2 Configure Device-Specific Settings
 
 Update these settings in the Tasker configuration:
 
 - **Device notification target**: Change `mobile_app_pixel_7` to your device name
-- **Screen coordinates**: Adjust AutoInput click coordinates for your device resolution
-- **App package names**: Verify Perplexity app package name matches your installation
+- **Screen coordinates**: Adjust AutoInput click coordinates for your device resolution (including ChatGPT voice button)
+- **App package names**: Verify Perplexity and ChatGPT app package names match your installation
 
 ## 📱 Tasker Components Breakdown
 
 ### Profiles (Intent Receivers)
 
-| Profile Name | Intent Action | Description |
-|--------------|---------------|-------------|
-| `int ha.ha_start` | `ha.ha_start` | Receives Home Assistant start command |
-| `int ha.ha_stop` | `ha.ha_stop` | Receives Home Assistant stop command |
-| `int ha.pp_start` | `ha.pp_start` | Receives Perplexity start command |
-| `int ha.pp_stop` | `ha.pp_stop` | Receives Perplexity stop command |
+| Profile Name      | Intent Action     | Description                          |
+|-------------------|------------------|--------------------------------------|
+| `int ha.ha_start` | `ha.ha_start`    | Receives Home Assistant start command|
+| `int ha.ha_stop`  | `ha.ha_stop`     | Receives Home Assistant stop command |
+| `int ha.pp_start` | `ha.pp_start`    | Receives Perplexity start command    |
+| `int ha.pp_stop`  | `ha.pp_stop`     | Receives Perplexity stop command     |
+| `int ha.gpt_start`| `ha.gpt_start`   | Receives ChatGPT start command       |
+| `int ha.gpt_stop` | `ha.gpt_stop`    | Receives ChatGPT stop command        |
 
 ### Tasks (Automation Logic)
 
 #### Voice Control Tasks
 
 **bt.ha_start** (Task 10)
-- Calls `bt.ha_start` task to initiate Home Assistant voice mode
+- Initiates Home Assistant voice mode
 
 **bt.ha_stop** (Task 3)
 - Disables AutoVoice headset sound detection
@@ -193,6 +216,19 @@ Update these settings in the Tasker configuration:
 - Stops voice recognition
 - Returns to normal audio state
 
+**bt.gpt_start** (Task X)
+- Enables media volume and AutoVoice headset detection
+- Launches ChatGPT app
+- Waits for app to load
+- Automatically clicks voice input button using AutoInput (configure coordinates for your device)
+- Configures audio routing for optimal voice recognition
+
+**bt.gpt_stop** (Task Y)
+- Disables AutoVoice headset sound detection
+- Resets audio settings
+- Stops voice recognition
+- Returns to normal audio state
+
 #### UI Control Tasks
 
 **bt.pp** (Task 8)
@@ -200,6 +236,9 @@ Update these settings in the Tasker configuration:
 
 **Task 9**
 - Handles Perplexity button press from popup scene
+
+**Task GPT**
+- Handles ChatGPT button press from popup scene (if implemented)
 
 ## 🎯 How to Use
 
@@ -218,6 +257,12 @@ Update these settings in the Tasker configuration:
    - AI responses play through car speakers
    - Tap "Stop Perplexity Voice" when done
 
+4. **Start GPT Chat (ChatGPT conversation)**:
+   - Tap the "Start GPT Chat" button (if available in the dashboard or via Tasker)
+   - Chat with ChatGPT directly from your car – perfect for brainstorming, idea generation, or casual conversation
+   - ChatGPT responses will play through your car speakers
+   - End the chat with the "Stop GPT Chat" button or a voice command
+
 ### Method 1a: Pre-Drive Setup
 
 - **Before starting your car**: Set up voice assistant from your phone
@@ -227,7 +272,7 @@ Update these settings in the Tasker configuration:
 ### Method 2: Tasker Popup Scene
 
 1. Run the `bt.pp` task in Tasker
-2. Select your preferred service from the popup
+2. Select your preferred service from the popup (Home Assistant, Perplexity, ChatGPT)
 3. Voice interface will automatically activate
 4. Use Home Assistant buttons to stop when finished
 
@@ -235,6 +280,7 @@ Update these settings in the Tasker configuration:
 
 - Run `bt.ha_start` for Home Assistant
 - Run `bt.pp_start` for Perplexity
+- Run `bt.gpt_start` for ChatGPT
 - Run respective stop tasks when finished
 
 ### Method 4: Android Home Screen Widget
@@ -251,10 +297,11 @@ Create a convenient home screen widget for quick access:
 4. **Use Widget**: Tap either button directly from your home screen
    - **Perplexity Button**: Instantly starts Perplexity voice mode
    - **Home Assistant Button**: Instantly starts Home Assistant voice mode
+   - **ChatGPT Button**: Instantly starts ChatGPT voice mode (if configured)
 
 The widget features:
 - **Material Design**: Uses system colors and modern styling
-- **Two-Button Layout**: Quick access to both voice services
+- **Multi-Button Layout**: Quick access to all voice services
 - **Customizable Appearance**: Colors and corner radius can be modified
 - **Direct Task Execution**: Bypasses Home Assistant dashboard for faster access
 
@@ -280,6 +327,7 @@ The system carefully manages Android audio routing for in-car use:
 - **Headset Detection**: AutoVoice monitors car's audio connection as "headset"
 - **Audio Focus**: Properly managed between apps and car's audio system
 - **Hands-Free Operation**: Designed for safe, voice-only interaction while driving
+- **Multi-service switching**: Ensures audio routing and focus is correctly managed when switching between Home Assistant, Perplexity, and ChatGPT
 
 ### App Automation
 
@@ -287,6 +335,12 @@ The system carefully manages Android audio routing for in-car use:
 - Automatic app launch
 - UI automation using AutoInput
 - Precise screen coordinate clicking (971,1976)
+- Voice button activation
+
+**ChatGPT Integration**:
+- Automatic app launch
+- UI automation using AutoInput
+- Configure screen coordinate clicking for ChatGPT voice button (device-specific)
 - Voice button activation
 
 **Home Assistant Integration**:
@@ -300,15 +354,16 @@ The system carefully manages Android audio routing for in-car use:
 - Prevents conflicts between services
 - Provides visual feedback in Home Assistant UI
 - Enables automation based on voice assistant state
+- Ensures only one voice service is active at a time (Home Assistant, Perplexity, or ChatGPT)
 
 ## 🛠️ Customization Options
 
 ### Adjusting for Different Cars and Devices
 
 1. **Car Audio System**: Test and adjust audio routing for your specific car model
-2. **Screen Resolution**: Update AutoInput coordinates for your phone/car display
+2. **Screen Resolution**: Update AutoInput coordinates for your phone/car display (including ChatGPT voice button)
 3. **Device Name**: Change notification target in Home Assistant automations
-4. **App Packages**: Verify and update app package names if needed
+4. **App Packages**: Verify and update app package names for Perplexity and ChatGPT if needed
 5. **Bluetooth Settings**: Optimize for your car's Bluetooth audio profile
 6. **Volume Levels**: Adjust for your car's speaker system and road noise
 
@@ -317,7 +372,7 @@ The system carefully manages Android audio routing for in-car use:
 1. Create new input buttons in Home Assistant
 2. Add corresponding automations with unique intent actions
 3. Create new Tasker profiles and tasks
-4. Update popup scene with additional buttons
+4. Update popup scene and widgets with additional buttons
 
 ### Audio Settings Optimization
 
@@ -337,10 +392,11 @@ Modify these values in stop tasks for your device:
 - Test microphone with other car apps first
 - Check car's audio input settings
 
-**Apps not launching**:
+**Apps not launching (Perplexity/ChatGPT)**:
 - Verify app package names
 - Check AutoInput accessibility permissions
 - Update screen coordinates for your device
+- Ensure the official ChatGPT app is installed and updated
 
 **Home Assistant not responding**:
 - Confirm Home Assistant Companion app is connected
@@ -351,6 +407,10 @@ Modify these values in stop tasks for your device:
 - Enable Tasker accessibility service
 - Grant all requested permissions
 - Check profile activation status
+
+**ChatGPT voice button not working**:
+- Reconfigure AutoInput coordinates for your device
+- Ensure ChatGPT app supports voice input on your device
 
 ### Debug Steps
 
@@ -381,27 +441,30 @@ graph TD
     F --> G{Service Type?}
     G -->|Home Assistant| H[Configure Audio for HA]
     G -->|Perplexity| I[Launch Perplexity App]
-    H --> J[Enable Voice Recognition]
-    I --> K[Click Voice Button]
-    K --> J
-    J --> L[User Speaks]
-    L --> M[Process Voice Command]
-    M --> N[Return Response]
-    N --> O[User Presses Stop Button]
-    O --> P[Reset Audio Settings]
-    P --> Q[End Session]
+    G -->|ChatGPT| J[Launch ChatGPT App]
+    H --> K[Enable Voice Recognition]
+    I --> L[Click Perplexity Voice Button]
+    J --> M[Click ChatGPT Voice Button]
+    K --> N[User Speaks]
+    L --> N
+    M --> N
+    N --> O[Process Voice Command]
+    O --> P[Return Response]
+    P --> Q[User Presses Stop Button]
+    Q --> R[Reset Audio Settings]
+    R --> S[End Session]
 ```
 
 ## 📊 Component Summary
 
-| Component | Count | Purpose |
-|-----------|-------|---------|
-| HA Automations | 4 | Bridge HA buttons to Tasker intents |
-| HA Input Buttons | 4 | User interface controls |
-| HA Input Boolean | 1 | State tracking |
-| Tasker Profiles | 4 | Intent receivers |
-| Tasker Tasks | 7 | Automation logic |
-| Tasker Scenes | 1 | Alternative UI |
+| Component         | Count | Purpose                                   |
+|-------------------|-------|-------------------------------------------|
+| HA Automations    | 6     | Bridge HA buttons to Tasker intents       |
+| HA Input Buttons  | 6     | User interface controls                   |
+| HA Input Boolean  | 1     | State tracking                            |
+| Tasker Profiles   | 6     | Intent receivers                          |
+| Tasker Tasks      | 9     | Automation logic (including ChatGPT)      |
+| Tasker Scenes     | 1     | Alternative UI                            |
 
 ## 🤝 Contributing
 
@@ -420,6 +483,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Home Assistant Community** - For the amazing smart home platform
 - **Tasker/AutoApps** - For powerful Android automation tools
 - **Perplexity AI** - For the excellent AI assistant service
+- **OpenAI ChatGPT** - For conversational AI
 
 ---
 
